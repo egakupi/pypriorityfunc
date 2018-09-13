@@ -18,7 +18,7 @@ class TestPyPriorityFunc(unittest.TestCase):
             "url": "http://degeuzen.nl/jeygtgv.exe",
         }
 
-        self.assertEqual(pypriority.pypriorityfunc(sample), 55)
+        self.assertEqual(55, pypriority.py_priority_func(sample))
 
     def test_2(self):
         sample = {
@@ -34,7 +34,7 @@ class TestPyPriorityFunc(unittest.TestCase):
             "url": "https://download.geo.drweb.com/pub/drweb/windows/katana/1.0/drweb-1.0-katana.exe?download=MSXML3.DLL",
         }
 
-        self.assertEqual(pypriority.pypriorityfunc(sample), 125)
+        self.assertEqual(125, pypriority.py_priority_func(sample))
 
 
 if __name__ == '__main__':
