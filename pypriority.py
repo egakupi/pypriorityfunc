@@ -17,54 +17,26 @@ import tldextract
 """
 
 
-sample1 = {
-            "info": {
-                "as": 19574,
-                "as_org": "Corporation Service Company",
-                "city": "Wilmington",
-                "country": "United States",
-                "iso": "US",
-                "isp": "Corporation Service Company",
-                "org": "Corporation Service Company"
-            },
-            "url": "http://degeuzen.nl/jeygtgv.exe",
-        }
-
-sample2 = {
-            "info": {
-                "as": 197068,
-                "as_org": "HLL LLC",
-                "city": "",
-                "country": "Russia",
-                "iso": "RU",
-                "isp": "HLL LLC",
-                "org": "HLL LLC"
-            },
-            "url": "https://download.geo.drweb.com/pub/drweb/windows/katana/1.0/drweb-1.0-katana.exe?download=MSXML3.DLL",
-        }
-
-
 def py_priority_func(src):
     priority = 50
+
+    info = src.get("info")
+    if info.get("as") == 666:
+        priority += 50
+    if info.get("iso") == "US":
+        priority -= 10
+    if info.get("iso") == "RU":
+        priority += 10
+    if ("CN" or "TW") == info.get("iso"):
+        priority -= 30
+
     url = src.get("url").lower()
-    if ".exe" or ".dll" or ".pdf" in url:
+    if (".exe" or ".dll" or ".pdf") in url:
         if url.endswith(".exe") or url.endswith(".dll") or url.endswith(".pdf"):
             priority += 15
         else:
             priority += 5
-
     if tldextract.extract(url).domain == 'drweb':
         priority += 50
-    # TODO Поле "as" сожержит "666" +50 к приоритету
-    # TODO Поле "iso" содержит "US" -10 к приоритету
-    # TODO Поле "iso" содержит "RU" +10 к приоритету
-    # TODO Поле "iso" содержит "CN", "TW" -30 к приоритету
 
-    print(src.get("info"))
-    print(src.get("url"))
-    print("Priority: ", priority)
     return priority
-
-
-py_priority_func(sample1)
-py_priority_func(sample2)
